@@ -75,11 +75,21 @@
       const timeTable = generateTimeTable(courses);
 
       // print time table
-      for (const day in timeTable) {
-        timeTable[day].forEach((entry, index) => {
-          document.write(`<tr><td>${day}</td><td>${(index+1)*2}:00 PM - ${(index+2)*2}:00 PM</td><td>${entry.course}</td><td>${entry.faculty.join(', ')}</td></tr>`);
-        });
-      }
+for (const day in timeTable) {
+  let startHour = 9; // start at 9:00 AM
+  let startMinute = 0;
+  timeTable[day].forEach((entry, index) => {
+    const endHour = startHour + Math.floor((startMinute + 50) / 60);
+    const endMinute = (startMinute + 50) % 60;
+    document.write(`<tr><td>${day}</td><td>${startHour}:${startMinute.toString().padStart(2, '0')} AM - ${endHour}:${endMinute.toString().padStart(2, '0')} AM</td><td>${entry.course}</td><td>${entry.faculty.join(', ')}</td></tr>`);
+    startMinute = endMinute + 5; // add 5-minute break
+    if (startMinute >= 60) {
+      startHour += 1;
+      startMinute -= 60;
+    }
+  });
+}
+
     </script>
   </tbody>
 </table>
