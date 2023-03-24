@@ -29,6 +29,7 @@
       <thead>
         <tr>
           <th>Day</th>
+          <th>Time</th>
           <th>Course</th>
           <th>Faculty</th>
         </tr>
@@ -43,45 +44,44 @@
             { name: "History", faculty: ["Bob", "Jane", "Charlie"], ratings: [8, 9, 7] },
             { name: "Geography", faculty: ["John", "Jane", "Alice"], ratings: [7, 8, 9] },
           ];
+      // generate time table for a week from Monday to Friday
+      const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
-          // generate time table for a week from Monday to Friday
-          const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-
-          // function to generate time table
-          function generateTimeTable(courses) {
-            const timeTable = {};
-            daysOfWeek.forEach((day) => {
-              timeTable[day] = [];
-              courses.forEach((course) => {
-                const courseFaculty = course.faculty;
-                const numFaculty = courseFaculty.length;
-                for (let i = 0; i < numFaculty; i++) {
-                  for (let j = i + 1; j < numFaculty; j++) {
-                    const facultyPair = [courseFaculty[i], courseFaculty[j]];
-                    // check if both faculty are available on current day
-                    const facultyAvailable = true; // replace with actual availability check
-                    if (facultyAvailable) {
-                      // add faculty pair to time table
-                      timeTable[day].push({ course: course.name, faculty: facultyPair });
-                    }
-                  }
+      // function to generate time table
+      function generateTimeTable(courses) {
+        const timeTable = {};
+        daysOfWeek.forEach((day) => {
+          timeTable[day] = [];
+          courses.forEach((course) => {
+            const courseFaculty = course.faculty;
+            const numFaculty = courseFaculty.length;
+            for (let i = 0; i < numFaculty; i++) {
+              for (let j = i + 1; j < numFaculty; j++) {
+                const facultyPair = [courseFaculty[i], courseFaculty[j]];
+                // check if both faculty are available on current day
+                const facultyAvailable = true; // replace with actual availability check
+                if (facultyAvailable) {
+                  // add faculty pair to time table
+                  timeTable[day].push({ course: course.name, faculty: facultyPair });
                 }
-              });
-            });
-            return timeTable;
-          }
+              }
+            }
+          });
+        });
+        return timeTable;
+      }
 
-          // generate time table
-          const timeTable = generateTimeTable(courses);
+      // generate time table
+      const timeTable = generateTimeTable(courses);
 
-          // print time table
-          for (const day in timeTable) {
-            timeTable[day].forEach((entry) => {
-              document.write(`<tr><td>${day}</td><td>${entry.course}</td><td>${entry.faculty.join(', ')}</td></tr>`);
-            });
-          }
-        </script>
-      </tbody>
-    </table>
-  </body>
+      // print time table
+      for (const day in timeTable) {
+        timeTable[day].forEach((entry, index) => {
+          document.write(`<tr><td>${day}</td><td>${(index+1)*2}:00 PM - ${(index+2)*2}:00 PM</td><td>${entry.course}</td><td>${entry.faculty.join(', ')}</td></tr>`);
+        });
+      }
+    </script>
+  </tbody>
+</table>
+</body>
 </html>
